@@ -18,7 +18,8 @@ interface AppDao {
     @Query("SELECT DBTrainingType.trainingTypeName FROM DBTrainingType")
     fun getAllTrainingTypes(): LiveData<List<String>>
 
-
+    @Query("SELECT 1 FROM DBTrainingType WHERE trainingTypeName = :name")
+    suspend fun isTrainingTypeAlreadyUsed(name: String): Boolean
 
     // Training
     @Insert

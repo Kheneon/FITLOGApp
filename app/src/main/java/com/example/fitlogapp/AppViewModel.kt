@@ -36,11 +36,24 @@ class AppViewModel : ViewModel() {
         return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "")
     }
 
+    /**
+     * Adds training type into database
+     *
+     * @param name New training type name
+     * @param note Training type note
+     *
+     * @return Response class with result of DB operation
+     */
     fun addTrainingType(name: String, note: String): Response{
+        if(name == ""){
+            return Response(rStatus = ResponseStatus.RS_FAILURE, rPayload = "Training type name is mandatory")
+        }
         viewModelScope.launch(Dispatchers.IO) {
-            appDao.insertTrainingType(
-                DBTrainingType(trainingTypeName = name,  trainingTypeNote = note)
-            )
+            if(!appDao.isTrainingTypeAlreadyUsed(name)) {
+                appDao.insertTrainingType(
+                    DBTrainingType(trainingTypeName = name, trainingTypeNote = note)
+                )
+            }
         }
         return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "Training type successfully added")
     }
