@@ -36,6 +36,15 @@ class AppViewModel : ViewModel() {
         return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "")
     }
 
+    fun addTrainingType(name: String, note: String): Response{
+        viewModelScope.launch(Dispatchers.IO) {
+            appDao.insertTrainingType(
+                DBTrainingType(trainingTypeName = name,  trainingTypeNote = note)
+            )
+        }
+        return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "Training type successfully added")
+    }
+
     /**
      * Check if date is valid in calendar
      */

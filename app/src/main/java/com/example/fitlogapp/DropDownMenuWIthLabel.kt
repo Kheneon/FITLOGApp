@@ -34,14 +34,16 @@ fun DropdownMenuWithLabel(
     Column(modifier =
         Modifier.then(if(fillWholeWidth) Modifier.fillMaxWidth() else Modifier.wrapContentWidth()),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text =label,
-            modifier = Modifier
-            .align(Alignment.CenterHorizontally)
-            .padding(top = 10.dp)
-            .then(if(fillWholeWidth) Modifier.fillMaxWidth() else Modifier.wrapContentWidth()),
-            color = TextWhite
-        )
+        if (label != "") {
+            Text(
+                text = label,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 10.dp)
+                    .then(if (fillWholeWidth) Modifier.fillMaxWidth() else Modifier.wrapContentWidth()),
+                color = TextWhite
+            )
+        }
         Text(
             text = selectedOption,
             modifier = Modifier

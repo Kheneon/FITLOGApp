@@ -4,13 +4,21 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Paint.Align
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +28,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.fitlogapp.ui.theme.BasicBackground
+import com.example.fitlogapp.ui.theme.TextWhite
 import java.time.LocalDate
 
 // TODO: add date selection
@@ -36,13 +49,30 @@ fun CreateTraining(viewModel: AppViewModel, context: Context){
     val tTrainingType = remember { mutableStateOf("") }
     val tTypeList by viewModel.trainingTypeList.observeAsState(emptyList())
     Column(modifier = Modifier.fillMaxSize().fillMaxHeight()) {
-        DropdownMenuWithLabel(
-            label = "",
-            selectedOption = tTrainingType.value,
-            onOptionSelected = {tTrainingType.value = it},
-            options = tTypeList,
-            fillWholeWidth = true
-        )
+        Row (
+            modifier = Modifier,
+            horizontalArrangement = Arrangement.SpaceAround
+        ){
+            DropdownMenuWithLabel(
+                label = "",
+                selectedOption = tTrainingType.value,
+                onOptionSelected = { tTrainingType.value = it },
+                options = tTypeList/*,
+                fillWholeWidth = true*/
+            )
+            Button(
+                onClick = { createTrainingType(context,viewModel) },
+                modifier = Modifier
+                    .align(Alignment.CenterVertically),
+                colors = ButtonDefaults.buttonColors(containerColor = BasicBackground)
+            ) {
+                Text(
+                    text = "+",
+                    color = TextWhite,
+                    fontSize = 25.sp)
+            }
+
+        }
         Row (
             modifier = Modifier,
             horizontalArrangement = Arrangement.SpaceAround,
