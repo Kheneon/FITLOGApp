@@ -25,6 +25,7 @@ import com.example.fitlogapp.ui.theme.TextWhite
 
 //TODO: default number of trainings shown
 //TODO: onCreate resets itemsInList variable - loads only first trainings
+//TODO: onclick on training, open training itself with exercises
 
 @Composable
 fun TrainingList(viewModel: AppViewModel){

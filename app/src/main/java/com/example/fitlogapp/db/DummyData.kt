@@ -5,6 +5,7 @@ package com.example.fitlogapp.db
  */
 fun insertDummyData(dao: AppDao?){
     insertDummyDataTrainingType(dao)
+    insertDummyDataExerciseType(dao)
     //insertDummyDataTraining(dao)
 }
 
@@ -32,6 +33,26 @@ fun insertDummyDataTrainingType(dao: AppDao?){
     )
     for(i in 0..<defaultTypes.size){
         dao?.insertTrainingType(DBTrainingType(defaultTypes[i],defaultDescriptions[i]))
+    }
+}
+
+fun insertDummyDataExerciseType(dao: AppDao?){
+    val defaultTypes : List<String> = listOf(
+        "Deadlift",
+        "Benchpress",
+        "Biceps curl"
+    )
+    /*val defaultDescriptions : List<String> = listOf( TODO: add basic type of exercises
+        "",
+        "",
+        "Back and Biceps muscles",
+        "Chest and Triceps muscles",
+        "Leg muscles",
+        "Shoulder muscles",
+        "ABS and stabilization system"
+    )*/
+    for(i in 0..<defaultTypes.size){
+        dao?.insertExerciseType(DBExerciseType(defaultTypes[i],"TODO"))
     }
 }
 

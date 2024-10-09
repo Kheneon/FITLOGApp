@@ -34,6 +34,29 @@ interface AppDao {
     @Query("DELETE FROM DBTraining WHERE trainingUID = :id")
     suspend fun deleteTrainingById(id: Int)
 
+    @Query("SELECT DBTraining.trainingUID FROM DBTraining ORDER BY trainingUID DESC LIMIT 1")
+    suspend fun getLatestTrainingID(): Int
+
+    @Query("SELECT DBTraining.training_type FROM DBTraining WHERE trainingUID = :tid")
+    suspend fun getTrainingName(tid: Int): String
+
+    // Exercise
     @Insert
     fun insertExercise(exercise: DBExercise)
+
+    @Query("SELECT * FROM DBExercise WHERE training_id = :tid")
+    fun getAllExercises(tid: Int): LiveData<List<DBExercise>>
+
+    @Query("SELECT * FROM DBExercise WHERE DBExercise.training_id = :uid")
+    fun getSpecificTrainingExercises(uid: Int): LiveData<List<DBExercise>>
+
+    // Exercise Type
+    @Insert
+    fun insertExerciseType(exerciseType: DBExerciseType)
+
+    @Query("SELECT * FROM DBExerciseType")
+    fun getAllExerciseTypes(): LiveData<List<DBExerciseType>>
+
+    @Query("SELECT exerciseTypeName FROM DBExerciseType")
+    fun getAllExerciseTypeNames(): LiveData<List<String>>
 }

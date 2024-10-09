@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.fitlogapp.ioThread
 
-@Database(entities = [DBTraining::class,DBExercise::class,DBTrainingType::class], version = 1, exportSchema = false)
+@Database(entities = [DBTraining::class,DBExercise::class,DBTrainingType::class,DBExerciseType::class], version = 1, exportSchema = false)
 abstract class AppDB : RoomDatabase() {
 
     abstract fun appDao(): AppDao

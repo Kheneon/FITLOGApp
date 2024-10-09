@@ -1,19 +1,27 @@
 package com.example.fitlogapp
 
-import androidx.collection.IntList
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.fitlogapp.db.DBExercise
+import com.example.fitlogapp.db.DBExerciseType
 import com.example.fitlogapp.db.DBTraining
 import com.example.fitlogapp.db.DBTrainingType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.sql.Date
 
-class AppViewModel : ViewModel() {
+class AppViewModel: ViewModel() {
     val appDao = MainApplication.appDB.appDao()
 
     val trainingList : LiveData<List<DBTraining>> = appDao.getAllTrainings()
+
+    val listOfAllExercises : LiveData<List<String>> = appDao.getAllExerciseTypeNames()
+
+    private val _exerciseList = MutableLiveData<List<DBExercise>>()
+    //val exerciseList : LiveData<List<DBExercise>> get() = _exerciseList
+    val exerciseList : LiveData<List<DBExercise>> = appDao.getAllExercises(MainApplication.actualTrainingID)
 
     val trainingTypeList : LiveData<List<String>> = appDao.getAllTrainingTypes()
 
@@ -32,8 +40,14 @@ class AppViewModel : ViewModel() {
                     trainingType = tType
                 )
             )
+            MainApplication.actualTrainingID = appDao.getLatestTrainingID()
+            println(MainApplication.actualTrainingID)
         }
         return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "")
+    }
+
+    suspend fun getTrainingName(tid: Int = MainApplication.actualTrainingID): String{
+        return appDao.getTrainingName(tid)
     }
 
     /**
@@ -56,6 +70,26 @@ class AppViewModel : ViewModel() {
             }
         }
         return Response(rStatus = ResponseStatus.RS_SUCCESS, rPayload = "Training type successfully added")
+    }
+
+    fun addExercise(tid: Int = MainApplication.actualTrainingID, eTypeName: String){
+        // TODO: check exercise type validity
+        viewModelScope.launch(Dispatchers.IO){
+            appDao.insertExercise(
+                DBExercise(
+                    exerciseTypeName = eTypeName,
+                    trainingUID = tid
+                )
+            )
+        }
+    }
+
+    fun getTrainingExercises(tid: Int = MainApplication.actualTrainingID){
+        viewModelScope.launch(Dispatchers.IO){
+            appDao.getAllExercises(tid).observeForever { exercises ->
+                _exerciseList.postValue(exercises)
+            }
+        }
     }
 
     /**
