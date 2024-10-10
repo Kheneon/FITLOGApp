@@ -91,6 +91,10 @@ class AppViewModel: ViewModel() {
         }
     }
 
+    fun openTraining(tid: Int){
+        MainApplication.actualTrainingID = tid
+    }
+
     fun exercisesAddNumOfSeries(eid: Int): Response{
         viewModelScope.launch(Dispatchers.IO) {
             var exercise = appDao.getSpecificExercise(eid)

@@ -1,6 +1,7 @@
 package com.example.fitlogapp
 
 import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +29,7 @@ import com.example.fitlogapp.ui.theme.TextWhite
 //TODO: onclick on training, open training itself with exercises
 
 @Composable
-fun TrainingList(viewModel: AppViewModel){
+fun TrainingList(viewModel: AppViewModel, context: Context){
     // Variables
     var itemsInList by remember { mutableIntStateOf(15) } // How many trainings will be shown
     val scrollState = rememberScrollState() // Remember actual scroll state on reload
@@ -54,7 +55,10 @@ fun TrainingList(viewModel: AppViewModel){
                         +dbTraining.trainingDate.toString().subSequence(4,6).toString().toInt().toString()
                         +"."
                         +dbTraining.trainingDate.toString().subSequence(0,4).toString().toInt().toString(), // TODO: remove logic from UI - move to ViewModel
-                modifier = Modifier
+                modifier = Modifier,
+                context = context,
+                viewModel = viewModel,
+                DBt = dbTraining
             )
         }
 

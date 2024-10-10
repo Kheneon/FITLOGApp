@@ -1,7 +1,10 @@
 package com.example.fitlogapp
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,9 +25,10 @@ import com.example.fitlogapp.ui.theme.BasicBackground
 import com.example.fitlogapp.ui.theme.TextWhiteDarker
 import com.example.fitlogapp.ui.theme.TextWhite
 import androidx.compose.ui.unit.dp
+import com.example.fitlogapp.db.DBTraining
 
 @Composable
-fun Training (trainingName: String, numberOfExercises: Int, date: String, modifier: Modifier = Modifier){
+fun Training (trainingName: String, numberOfExercises: Int, date: String, modifier: Modifier = Modifier, context: Context, viewModel: AppViewModel, DBt: DBTraining){
     Surface (
         color = BasicBackground,
         modifier = modifier
@@ -32,7 +36,12 @@ fun Training (trainingName: String, numberOfExercises: Int, date: String, modifi
             .padding(top = 2.dp)
             .background(color = BasicBackground)
             .padding(10.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                viewModel.openTraining(DBt.trainingUID)
+                val intent = Intent(context,TrainingActivity::class.java).apply {  }
+                context.startActivity(intent)
+            },
     ) {
         Row (verticalAlignment = Alignment.CenterVertically){
             Icon(
