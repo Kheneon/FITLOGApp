@@ -27,7 +27,7 @@ interface AppDao {
     fun insertTraining(training: DBTraining)
 
     @Query("SELECT * FROM DBTraining WHERE trainingUID = :id")
-    fun getTrainingById(id: Int): Flow<DBTraining?>
+    suspend fun getTrainingById(id: Int): DBTraining
 
     @Query("SELECT * FROM DBTraining ORDER BY DBTraining.training_date DESC")
     fun getAllTrainings(): LiveData<List<DBTraining>>
@@ -40,6 +40,9 @@ interface AppDao {
 
     @Query("SELECT DBTraining.training_type FROM DBTraining WHERE trainingUID = :tid")
     suspend fun getTrainingName(tid: Int): String
+
+    @Query("UPDATE DBTraining SET num_of_exercise = :newNumOfExercise WHERE trainingUID = :tid")
+    fun updateTrainingNumOfExercise(tid: Int, newNumOfExercise: Int)
 
     // Exercise
     @Insert
@@ -62,6 +65,9 @@ interface AppDao {
 
     @Query("SELECT * FROM DBExercise WHERE exerciseUID = :eid")
     suspend fun getSpecificExercise(eid: Int): DBExercise
+
+    @Query("DELETE FROM DBExercise WHERE exerciseUID = :eid")
+    fun deleteExerciseById(eid: Int)
 
     // Exercise Type
     @Insert

@@ -88,5 +88,10 @@ fun Exercise (exercise: DBExercise, viewModel: AppViewModel){
                         addedWeight.doubleValue -= weightStep
                     }.padding(5.dp))
         }
+        Text(
+            text = "X",
+            modifier = Modifier
+                .clickable {
+                    viewModel.deleteExercise(exercise.exerciseUID) }) // TODO: add modal on delete
     }
 }

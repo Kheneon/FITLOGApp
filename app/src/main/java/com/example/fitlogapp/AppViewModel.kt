@@ -81,6 +81,16 @@ class AppViewModel: ViewModel() {
                 )
             )
         }
+        viewModelScope.launch(Dispatchers.IO){
+            var training = appDao.getTrainingById(tid)
+            appDao.updateTrainingNumOfExercise(tid,training.numOfExercises+1)
+        }
+    }
+
+    fun deleteExercise(eid: Int){
+        viewModelScope.launch(Dispatchers.IO){
+            appDao.deleteExerciseById(eid)
+        }
     }
 
     fun getTrainingExercises(tid: Int = MainApplication.actualTrainingID){
