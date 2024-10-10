@@ -9,7 +9,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +26,8 @@ fun Exercise (exercise: DBExercise, viewModel: AppViewModel){
     //TODO: UI
     val numOfSeries = remember { mutableIntStateOf(exercise.numOfSeries) }
     val numOfRepetition = remember { mutableIntStateOf(exercise.numOfRepetition) }
+    val addedWeight = remember { mutableDoubleStateOf(exercise.addedWeight) }
+    val weightStep : Double = 2.5
     Row (){
         Text(
             text = exercise.exerciseTypeName,
@@ -63,6 +67,25 @@ fun Exercise (exercise: DBExercise, viewModel: AppViewModel){
                     .clickable (enabled = numOfRepetition.intValue > 0){
                         viewModel.exercisesSubNumOfRepetition(exercise.exerciseUID)
                         numOfRepetition.intValue -= 1
+                    }.padding(5.dp))
+        }
+        Row (modifier = Modifier.wrapContentWidth()){
+            Text(
+                text = "+",
+                modifier = Modifier
+                    .clickable {
+                        viewModel.exercisesAddAddedWeight(exercise.exerciseUID)
+                        addedWeight.doubleValue += weightStep
+                    }.padding(5.dp))
+            Text(
+                text = addedWeight.doubleValue.toString(), //TODO: default value based on previous exercise
+                modifier = Modifier.padding(5.dp))
+            Text(
+                text = "-",
+                modifier = Modifier
+                    .clickable (enabled = addedWeight.doubleValue > 0){
+                        viewModel.exerciseSubAddedWeight(exercise.exerciseUID)
+                        addedWeight.doubleValue -= weightStep
                     }.padding(5.dp))
         }
     }

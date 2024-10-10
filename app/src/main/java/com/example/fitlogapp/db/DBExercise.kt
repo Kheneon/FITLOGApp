@@ -22,5 +22,6 @@ data class DBExercise(
     @ColumnInfo(name = "exercise_type_name") val exerciseTypeName: String,
     @ColumnInfo(name = "training_id") val trainingUID : Int,
     @ColumnInfo(name = "number_of_series") val numOfSeries: Int = 0,
-    @ColumnInfo(name = "number_of_repetition") val numOfRepetition: Int = 0
+    @ColumnInfo(name = "number_of_repetition") val numOfRepetition: Int = 0,
+    @ColumnInfo(name = "added_weight") val addedWeight: Double = 0.0
 )

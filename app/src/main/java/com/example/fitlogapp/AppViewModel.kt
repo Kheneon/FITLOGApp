@@ -127,6 +127,24 @@ class AppViewModel: ViewModel() {
         return Response(ResponseStatus.RS_SUCCESS)
     }
 
+    fun exercisesAddAddedWeight(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO) {
+            var exercise = appDao.getSpecificExercise(eid)
+            appDao.updateExerciseAddedWeight(eid,exercise.addedWeight + 2.5)
+        }
+        return Response(rStatus = ResponseStatus.RS_SUCCESS)
+    }
+
+    fun exerciseSubAddedWeight(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO){
+            var exercise = appDao.getSpecificExercise(eid)
+            if (exercise.addedWeight > 0.0) {
+                appDao.updateExerciseAddedWeight(eid, exercise.addedWeight - 2.5)
+            }
+        }
+        return Response(ResponseStatus.RS_SUCCESS)
+    }
+
     /**
      * Check if date is valid in calendar
      */

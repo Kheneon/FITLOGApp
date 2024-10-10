@@ -57,6 +57,9 @@ interface AppDao {
     @Query("UPDATE DBExercise SET number_of_repetition = :numOfReps WHERE exerciseUID = :eid")
     fun updateExerciseNumOfReps(eid: Int, numOfReps: Int)
 
+    @Query("UPDATE DBExercise SET added_weight = :addedWeight WHERE exerciseUID = :eid")
+    fun updateExerciseAddedWeight(eid: Int, addedWeight: Double)
+
     @Query("SELECT * FROM DBExercise WHERE exerciseUID = :eid")
     suspend fun getSpecificExercise(eid: Int): DBExercise
 
