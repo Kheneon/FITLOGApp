@@ -20,8 +20,7 @@ class AppViewModel: ViewModel() {
     val listOfAllExercises : LiveData<List<String>> = appDao.getAllExerciseTypeNames()
 
     private val _exerciseList = MutableLiveData<List<DBExercise>>()
-    //val exerciseList : LiveData<List<DBExercise>> get() = _exerciseList
-    val exerciseList : LiveData<List<DBExercise>> = appDao.getAllExercises(MainApplication.actualTrainingID)
+    var exerciseList : LiveData<List<DBExercise>> = appDao.getAllExercises(MainApplication.actualTrainingID)
 
     val trainingTypeList : LiveData<List<String>> = appDao.getAllTrainingTypes()
 
@@ -90,6 +89,42 @@ class AppViewModel: ViewModel() {
                 _exerciseList.postValue(exercises)
             }
         }
+    }
+
+    fun exercisesAddNumOfSeries(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO) {
+            var exercise = appDao.getSpecificExercise(eid)
+            appDao.updateExerciseNumOfSeries(eid,exercise.numOfSeries + 1)
+        }
+        return Response(rStatus = ResponseStatus.RS_SUCCESS)
+    }
+
+    fun exercisesSubNumOfSeries(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO){
+            var exercise = appDao.getSpecificExercise(eid)
+            if (exercise.numOfSeries > 0) {
+                appDao.updateExerciseNumOfSeries(eid, exercise.numOfSeries - 1)
+            }
+        }
+        return Response(ResponseStatus.RS_SUCCESS)
+    }
+
+    fun exercisesAddNumOfRepetition(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO) {
+            var exercise = appDao.getSpecificExercise(eid)
+            appDao.updateExerciseNumOfReps(eid,exercise.numOfRepetition + 1)
+        }
+        return Response(rStatus = ResponseStatus.RS_SUCCESS)
+    }
+
+    fun exercisesSubNumOfRepetition(eid: Int): Response{
+        viewModelScope.launch(Dispatchers.IO){
+            var exercise = appDao.getSpecificExercise(eid)
+            if (exercise.numOfRepetition > 0) {
+                appDao.updateExerciseNumOfReps(eid, exercise.numOfRepetition - 1)
+            }
+        }
+        return Response(ResponseStatus.RS_SUCCESS)
     }
 
     /**

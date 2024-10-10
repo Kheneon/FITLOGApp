@@ -3,6 +3,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -49,6 +50,15 @@ interface AppDao {
 
     @Query("SELECT * FROM DBExercise WHERE DBExercise.training_id = :uid")
     fun getSpecificTrainingExercises(uid: Int): LiveData<List<DBExercise>>
+
+    @Query("UPDATE DBExercise SET number_of_series = :numOfSeries WHERE exerciseUID = :eid")
+    fun updateExerciseNumOfSeries(eid: Int, numOfSeries: Int)
+
+    @Query("UPDATE DBExercise SET number_of_repetition = :numOfReps WHERE exerciseUID = :eid")
+    fun updateExerciseNumOfReps(eid: Int, numOfReps: Int)
+
+    @Query("SELECT * FROM DBExercise WHERE exerciseUID = :eid")
+    suspend fun getSpecificExercise(eid: Int): DBExercise
 
     // Exercise Type
     @Insert

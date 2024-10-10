@@ -15,7 +15,7 @@ fun ExerciseList(viewModel: AppViewModel){
     val addExercise = remember { mutableStateOf(defaultChooseTrainingString) }
     Column {
         eList.forEach(){exercise ->
-            Exercise(exercise)
+            Exercise(exercise,viewModel)
         }
         DropdownMenuWithLabel(
             label = "Add exercise into your training",
